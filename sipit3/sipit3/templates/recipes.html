@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="hr">
+<meta charset="UTF-8">
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="./sipitlib.js"></script>
+      <link rel="stylesheet" href="{{ url_for('static', filename='recipes.css') }}">
+
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+      <script src="https://code.j_query.com/ui/1.12.1/jquery-ui.js"></script>
+      <title>SipIT</title>
+
+    </head>
+  
+    <body>
+        <header>
+          <div class="logo-container">
+            <img src="{{ url_for('static', filename='Images/logo.png') }}" alt="Logo" class="logo">
+            <h1>SipIT</h1>
+        </div>
+            <nav>
+                <ul>
+                  <li><a href="{{ url_for('index') }}">Početna</a></li>
+                  <li><a href="{{ url_for('recipes') }}">Recepti</a></li>
+                  <li><a href="{{ url_for('barovi') }}">Barovi</a></li>
+                  <li><a href="{{ url_for('lokacija') }}">Lokacija</a></li>
+                  <li><a href="{{ url_for('blog') }}">Blog</a></li>
+                  <li><a href="{{ url_for('contact') }}">Kontakt</a></li>
+                  {% if session['username'] %}
+                  <li><a href="{{ url_for('profile') }}">Profil</a></li>
+                    <li><a href="{{ url_for('logout') }}">Odjava</a></li>
+                {% endif %}
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+          
+        <div class="ad">
+            <h1>Pronađi svoj omiljeni koktel!</h1>
+            <p>Istraži razne vrste koktela i nađi najbolji za sebe i svoje prijatelje!</p>
+
+        </div>
+        
+        <div class="search-container">
+            <input type="text" id="search-input" class="search-input"  placeholder="Pretraži...">
+            <button class="search-button" id="search-button" aria-label="Search..." onclick="CocktailInput()">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m2.69-5.14a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z" />
+            </svg>
+            </button>
+        </div>
+
+        <div class="filters">
+            <div class="filter" data-filter="category">Kategorija</div>
+            <div class="filter" data-filter="ingredients">Sastojci</div>
+            <div class="filter" data-filter="difficulty">Težina</div>
+            <div class="filter" data-filter="time">Vrijeme</div>
+        </div>
+        
+        <div class="filter-options" id="category-options">
+            <label><input type="checkbox" class="filter-checkbox" name="Alkoholno" /> Alkoholno</label>
+            <label><input type="checkbox" class="filter-checkbox" name="Bezalkoholno" /> Bezalkoholno</label>
+            <label><input type="checkbox" class="filter-checkbox" name="Veganski" /> Veganski</label>
+            <label><input type="checkbox" class="filter-checkbox" name="Bez glutena" /> Bez glutena</label>
+            <label><input type="checkbox" class="filter-checkbox" name="Bez laktoze" /> Bez laktoze</label>
+        </div>
+        <div class="filter-options" id="ingredients-options">
+        <label><input type="checkbox" class="filter-checkbox" name="Votka" /> Votka</label>
+        <label><input type="checkbox" class="filter-checkbox" name="Gin" /> Gin</label>
+        <label><input type="checkbox" class="filter-checkbox" name="Tekila" /> Tekila</label>
+        <label><input type="checkbox" class="filter-checkbox" name="Vermut" /> Vermut</label>
+        <label><input type="checkbox" class="filter-checkbox" name="Rum" /> Rum</label>
+        <label><input type="checkbox" class="filter-checkbox" name="Limeta" /> Limeta</label>
+        <label><input type="checkbox" class="filter-checkbox" name="Naranča" /> Naranča</label>
+        <label><input type="checkbox" class="filter-checkbox" name="Limun" /> Limun</label>
+        <label><input type="checkbox" class="filter-checkbox" name="Mineralna voda" /> Mineralna voda</label>
+        </div>
+        <div class="filter-options" id="difficulty-options">
+        <label><input type="checkbox" class="filter-checkbox" name="Lako" /> Lako</label>
+        <label><input type="checkbox" class="filter-checkbox" name="Srednje" /> Srednje</label>
+        <label><input type="checkbox" class="filter-checkbox" name="Teško" /> Teško</label>
+        </div>
+        <div class="filter-options" id="time-options">
+        <label><input type="checkbox" class="filter-checkbox" name="manje od 5 minuta" /> manje od 5 minuta</label>
+        <label><input type="checkbox" class="filter-checkbox" name="5-10 minuta" /> 5-10 minuta</label>
+        <label><input type="checkbox" class="filter-checkbox" name="10-20 minuta" /> 10-20 minuta</label>
+        <label><input type="checkbox" class="filter-checkbox" name=">20 minuta" /> >20 minuta</label>
+        </div>
+      
+        <h1 class="naslov">Lista koktela</h1>
+
+
+<div class="container" id="cocktail-list">
+  
+    <div class="cocktail-card" data-category="Alkoholno" data-ingredients="Tekila, Triple Sec" data-difficulty="Lako" data-time="5-10 minuta">
+      <div class="cocktail-card-content">
+        <button class="heart-btn" aria-label="Like">&#10084;</button>
+        <h2 class="cocktail-name">Margarita Classic</h2>
+        <img src="{{ url_for('static', filename='Images/margarita_classic.jpg') }}" alt="Slika Margarita koktela" class="cocktail-card-image small-image"/>
+        <p class="ccc-nesto"><i>Classic Cocktail</i></p>
+        <p class="ccc-nesto">Idealno za ljetnu večer.</p>
+        <button class="expand-btn">Pogledaj recept</button>
+      </div>
+      <div class="cocktail-details">
+        <div class="details-grid">
+          <img src="{{ url_for('static', filename='Images/margarita_classic.jpg') }}" class="cocktail-card-image large-image"> 
+      
+        <div class="cocktail-info">
+          <p><strong>Sastojci:</strong>
+          <br>50ml Tekila
+          <br>25ml Triple sec
+          <br>25ml Sok od limete</p>  
+          <p><strong>Recept:</strong> Sve sastojke osim kriške limete stavite u blender i miksajte dok smjesa ne postane glatka. Stavite morsku sol na tanjurić. Navlažite rubove čaše za Margaritu, okrenite čašu naopako u soli i premažite rub. Stavite smjesu u čašu, ukrasite kriškom limete i poslužite.
+            </p>
+          <p><strong>Nutritivne vrijednosti:</strong>
+            <br>kcal: 232
+            <br>ugljikohidrati: 16g
+            <br>masti: 0g
+            <br>šećeri: 16g
+            <br>proteini: 0g
+            <br>soli: 0.01g
+          </p>
+          <p><strong>Sastojci:</strong>50ml tequila, 25ml triple sec, 25ml sok od limete, 15ml šećerni sirup, šaka leda, sol, kriška limete</p>
+        </div> 
+      </div>
+    </div> 
+</div>
+
+  
+
+  <div class="cocktail-card" data-category="Alkoholno" data-ingredients="Gin, Vermut" data-difficulty="Srednje" data-time="5-10 minuta">
+    <div class="cocktail-card-content">
+      <button class="heart-btn" aria-label="Like">&#10084;</button>
+      <h2 class="cocktail-name">Martini</h2>
+      <img src="{{ url_for('static', filename='Images/martini-secrets.jpg') }}" alt="Slika Martini koktela" class="cocktail-card-image small-image" />
+      <p class="ccc-nesto"><i>Classic Cocktail</i></p>
+      <p class="ccc-nesto">Elegantno i bezvremenski.</p>
+      <button class="expand-btn">Pogledaj recept</button>
+    </div>
+    <div class="cocktail-details">
+      <div class="details-grid">
+        <img src="{{ url_for('static', filename='Images/martini-secrets.jpg') }}" class="cocktail-card-image large-image"> 
+        <div class="cocktail-info">
+          <p><strong>Sastojci:</strong>
+          <br>60ml votka
+          <br>1 žlica suhi vermut
+          <br>maslina ili kora od limuna</p>
+          <p><strong>Recept:</strong> Pomiješajte tekilu, sok od limete i triple sec.</p>
+          <p><strong>Nutritivne vrijednosti:</strong> 
+          <br>150 kalorija</p>
+    </div> 
+  </div>
+</div> 
+</div>
+
+  <div class="cocktail-card" data-category="Alkoholno, Veganski" data-ingredients="Tekila, Vermut" data-difficulty="Srednje" data-time="5-10 minuta">
+    <div class="cocktail-card-content">
+      <button class="heart-btn" aria-label="Like">&#10084;</button>
+      <h2 class="cocktail-name">Strawberry Margarita</h2>
+      <img src="{{ url_for('static', filename='Images/strawberry_margarita.jpg') }}" alt="Slika Strawberry Margarita koktela" class="cocktail-card-image small-image" />
+      <p class="ccc-nesto"><i>Classic Cocktail</i></p>
+      <p class="ccc-nesto"> Okus ljeta!</p>
+      <button class="expand-btn">Pogledaj recept</button>
+    </div>
+    <div class="cocktail-details">
+      <div class="details-grid">
+        <img src="{{ url_for('static', filename='Images/strawberry_margarita.jpg') }}" class="cocktail-card-image large-image">
+        <div class="cocktail-info">
+          <p><strong>Sastojci:</strong>
+          <br>400g smrznutih jagoda
+          <br>120ml tequila
+          <br>75ml triple sec
+          <br>1 limeta (iscijeđena)
+          <br>sol</p>
+          <p><strong>Recept:</strong> Sve sastojke osim kriške limete stavite u blender i miksajte dok smjesa ne postane glatka. Stavite morsku sol na tanjurić. Navlažite rubove čaše za Margaritu, okrenite čašu naopako u soli i premažite rub. Stavite smjesu u čašu i poslužite.
+          </p>
+          <p><strong>Nutritivne vrijednosti:</strong> 
+          <br>kcal: 164
+          <br>ugljikohidrati: 12g
+          <br>masti: 0.1g
+          <br>šećeri: 12g
+          <br>proteini: 1g
+          <br>soli: 0.5g
+          </p>
+        </div>
+      </div>
+ </div>
+</div>
+<div class="cocktail-card" data-category="Alkoholno, Veganski, Bez laktoze" data-ingredients="Tekila, Limun, Votka, Gin, Rum" data-difficulty="Srednje" data-time="5-10 minuta">
+  <div class="cocktail-card-content">
+    <button class="heart-btn" aria-label="Like">&#10084;</button>
+    <h2 class="cocktail-name">Long Island Ice Tea</h2>
+    <img src="{{ url_for('static', filename='Images/long_island_ice_tea.jpg') }}" alt="Slika Long Island Ice Tea koktela" class="cocktail-card-image small-image" />
+    <p class="ccc-nesto"><i>Classic Cocktail</i></p>
+    <p class="ccc-nesto"> Moćna harmonija okusa!</p>
+    <button class="expand-btn">Pogledaj recept</button>
+  </div>
+  <div class="cocktail-details">
+    <div class="details-grid">
+      <img src="{{ url_for('static', filename='Images/long_island_ice_tea.jpg') }}" class="cocktail-card-image large-image"> 
+      <div class="cocktail-info">
+          <p><strong>Sastojci:</strong>
+          <br>15ml tequila
+          <br>15ml triple sec
+          <br>45ml Cola
+          <br>20ml sok od limuna
+          <br>15ml Mount Gay Silver Rum
+          <br>15ml šećerni sirup
+          <br>15ml The Botanist Gin
+          <br>15ml Votka</p>
+          <p><strong>Recept:</strong> Sve sastojke ulijte u čašu s ledom i kratko promiješajte. Ukrasite kriškom limuna.</p>
+          <p><strong>Nutritivne vrijednosti:</strong> 
+            <br>kcal: 256
+            <br>ugljikohidrati: 13g
+            <br>masti: 0.2g
+            <br>šećeri: 11g
+            <br>proteini: 0.1g
+            <br>soli: 0g
+            </p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="cocktail-card" data-category="Alkoholno, Veganski, Bez glutena" data-ingredients="Rum, Limeta" data-difficulty="Srednje" data-time="5-10 minuta">
+  <div class="cocktail-card-content"> 
+    <button class="heart-btn" aria-label="Like">&#10084;</button> 
+      <h2 class="cocktail-name">Islander</h2>
+      <img src="{{ url_for('static', filename='Images/islander.jpg') }}" alt="Slika Islander koktela" class="cocktail-card-image small-image" />
+      <p class="ccc-nesto"><i>Classic Cocktail</i></p>
+      <p class="ccc-nesto"> Osveženje sa daškom egzotike! </p>
+      <button class="expand-btn">Pogledaj recept</button>
+  </div>
+  <div class="cocktail-details">
+    <div class="details-grid">
+      <img src="{{ url_for('static', filename='Images/islander.jpg') }}" class="cocktail-card-image large-image">
+      <div class="cocktail-info">
+        <p><strong>Sastojci:</strong>
+        <br>40ml tamni rum
+        <br>1 žlica zeleni šartez
+        <br>1 žlica mezkal
+        <br>25ml sok od limete
+        <br>2 žlice šećernog sirupa
+        <br>1 žlica sok od grejpfruta
+        <br>2 crtice gorke čokolade
+        <br>šaka leda
+        <br>alge ili alge u prahu
+        <br>sol</p>
+        <p><strong>Recept:</strong> Obrubite čašu solju i algama (opcionalno). Napunite shaker za koktele ledom i dodajte sve preostale sastojke. Dobro protresite da se sjedini, dok se smjesa ne ohladi. Duplo procijedite u čašu.
+        </p>
+        <p><strong>Nutritivne vrijednosti:</strong> 
+          <br>kcal: 210
+          <br>ugljikohidrati: 13g
+          <br>masti: 0g
+          <br>šećeri: 13g
+          <br>proteini: 0.2g
+          <br>soli: 0.01g
+        </p>
+  </div>
+  </div>
+</div>
+</div>
+
+  <div class="cocktail-card" data-category="Alkoholno, Veganski, Bez glutena" data-ingredients="Rum" data-difficulty="Lako" data-time="5-10 minuta">
+    <div class="cocktail-card-content">
+      <button class="heart-btn" aria-label="Like">&#10084;</button>
+      <h2 class="cocktail-name">Pina Colada</h2>
+      <img src="{{ url_for('static', filename='Images/pina_colada.jpg') }}" alt="Slika Pina Colada koktela" class="cocktail-card-image small-image"  />
+      <p class="ccc-nesto"><i>Classic Cocktail</i></p>
+      <p class="ccc-nesto"> Savršen spoj ananasa i kokosa. </p>
+      <button class="expand-btn">Pogledaj recept</button>
+      </div>
+      <div class="cocktail-details">
+        <div class="details-grid">
+          <img src="{{ url_for('static', filename='Images/pina_colada.jpg') }}" class="cocktail-card-image large-image"> 
+          <div class="cocktail-info">
+          <p><strong>Sastojci:</strong>
+          <br>250ml sok od ananasa
+          <br>100ml bijeli rum
+          <br>100ml kokosovo vrhnje
+          <br>komadići ananasa</p>
+          <p><strong>Recept:</strong> Ulijte sok od ananasa u posudu za led i zamrznite dok ne postane čvrst. Bijeli rum ulijte u blender. Dodajte kokosovo vrhnje i kockice leda od ananasa i miksajte dok se ne sjedini. Ulijte u visoke čaše za posluživanje i ukrasite komadićima ananasa.
+          </p>
+          <p><strong>Nutritivne vrijednosti:</strong> 
+            <br>kcal: 346
+            <br>ugljikohidrati: 15g
+            <br>masti: 18g
+            <br>šećeri: 15g
+            <br>proteini: 3g
+            <br>soli: 0.03g
+          </p>
+  </div>
+  </div>
+</div>
+</div>
+
+  <div class="cocktail-card" data-category="Alkoholno, Veganski, Bez laktoze, Bez glutena" data-ingredients=" Naranča, Votka" data-difficulty="Lako" data-time="5-10 minuta">
+    <div class="cocktail-card-content">
+      <button class="heart-btn" aria-label="Like">&#10084;</button>
+      <h2 class="cocktail-name">Sex on the Beach</h2>
+      <img src="{{ url_for('static', filename='Images/sex_on_the_beach.jpg') }}" alt="Slika Sex on the beach koktela" class="cocktail-card-image small-image"/>
+      <p class="ccc-nesto"><i>Classic Cocktail</i></p>
+      <p class="ccc-nesto"> Voćna eksplozija! </p>
+      <button class="expand-btn">Pogledaj recept</button>
+  </div>
+  <div class="cocktail-details">
+    <div class="details-grid">
+      <img src="{{ url_for('static', filename='Images/sex_on_the_beach.jpg') }}" class="cocktail-card-image large-image"> 
+      <div class="cocktail-info">
+        <p><strong>Sastojci:</strong>
+        <br>led
+        <br>50ml votka
+        <br>25ml rakija od breskve
+        <br>2 naranče
+        <br>50ml sok od brusnice
+        <br>Glacé trešnje</p>
+        <p><strong>Recept:</strong> Napunite dvije visoke čaše kockicama leda. Ulijte votku, rakiju od breskve i voćne sokove u veliki vrč i promiješajte. Podijelite smjesu u dvije čaše i lagano promiješajte da se sjedini. Ukrasite koktel višnjama i kriškama naranče.
+        </p>
+        <p><strong>Nutritivne vrijednosti:</strong> 
+          <br>kcal: 92
+          <br>ugljikohidrati: 8g
+          <br>masti: 0g
+          <br>šećeri: 8g
+          <br>proteini: 1g
+          <br>soli: 0g</p>
+  </div>
+  </div>
+  </div>
+  </div>
+  <div class="cocktail-card" data-category="Alkoholno, Veganski, Bez glutena" data-ingredients="Votka, Limun, Limeta, Naranča" data-difficulty="Lako" data-time="5-10 minuta">
+    <div class="cocktail-card-content">
+      <button class="heart-btn" aria-label="Like">&#10084;</button>
+      <h2 class="cocktail-name">Cosmopolitan Classic</h2>
+      <img src="{{ url_for('static', filename='Images/cosmopolitian_classic.jpg') }}" alt="Slika Cosmopolitan Classic koktela" class="cocktail-card-image small-image" />
+      <p class="ccc-nesto"><i>Classic Cocktail</i></p>
+      <p class="ccc-nesto"> Elegancija u svakom gutljaju.</p>
+      <button class="expand-btn">Pogledaj recept</button>
+    </div>
+    <div class="cocktail-details">
+      <div class="details-grid">
+        <img src="{{ url_for('static', filename='Images/cosmopolitian_classic.jpg') }}" class="cocktail-card-image large-image"> 
+        <div class="cocktail-info">
+          <p><strong>Sastojci:</strong>
+          <br>45ml votka od limuna
+          <br>15ml triple sec
+          <br>30ml sok od brusnice
+          <br>10ml sok od limete
+          <br>led
+          <br>narančina korica</p>
+          <p><strong>Recept:</strong> Promućkajte sastojke u shakeru za koktele s ledom i procijedite u čašu za koktel. Lagano prođite upaljenom šibicom ili upaljačem po komadu narančine korice. Savijte vanjski rub korice prema plamenu tako da narančino ulje iscuri u koktel, a zatim ubacite koricu u piće.
+          </p>
+          <p><strong>Nutritivne vrijednosti:</strong> 
+            <br>kcal: 161
+            <br>ugljikohidrati: 8g
+            <br>masti: 0g
+            <br>šećeri: 8g
+            <br>proteini: 0g
+            <br>soli: 0g</p>
+  </div>
+  </div>
+  </div>
+  </div>
+  <div class="cocktail-card" data-category="Alkoholno, Veganski, Bez glutena" data-ingredients="Limeta, Rum" data-difficulty="Lako" data-time="5-10 minuta">
+    <div class="cocktail-card-content">
+      <button class="heart-btn" aria-label="Like">&#10084;</button>
+      <h2 class="cocktail-name">Daiquiri</h2>
+      <img src="{{ url_for('static', filename='Images/daiquiri.jpg') }}" alt="Slika Daiquiri koktela" class="cocktail-card-image small-image" />
+      <p class="ccc-nesto"><i>Classic Cocktail</i></p>
+      <p class="ccc-nesto">Jednostavnost koja osvaja.</p>
+      <button class="expand-btn">Pogledaj recept</button>
+    </div>
+    <div class="cocktail-details">
+      <div class="details-grid">
+        <img src="{{ url_for('static', filename='Images/daiquiri.jpg') }}" class="cocktail-card-image large-image"> 
+        <div class="cocktail-info">
+          <p><strong>Sastojci:</strong>
+          <br>50ml bijeli rum
+          <br>25ml sok od limete
+          <br>10ml šećerni sirup
+          <br>led</p>
+          <p><strong>Recept:</strong> Stavite sve sastojke u shaker za koktele s ledom i miksajte dok se dobro ne ohladi. Procijedite u ohlađenu čašu i ukrasite po želji.
+          </p>
+          <p><strong>Nutritivne vrijednosti:</strong> 
+            <br>kcal: 146
+            <br>ugljikohidrati: 7g
+            <br>masti: 0g
+            <br>šećeri: 7g
+            <br>proteini: 0g
+            <br>soli: 0g
+          </p>
+  </div>
+  </div>
+</div>
+</div>
+
+  <div class="cocktail-card" data-category="Alkoholno, Veganski, Bez glutena" data-ingredients="Votka" data-difficulty="Srednje" data-time="5-10 minuta">
+    <div class="cocktail-card-content">
+      <button class="heart-btn" aria-label="Like">&#10084;</button>
+      <h2 class="cocktail-name">Espresso Martini</h2>
+      <img src="{{ url_for('static', filename='Images/espresso_martini.jpg') }}" alt="Slika Espresso Martini koktela" class="cocktail-card-image small-image" />
+      <p class="ccc-nesto"><i>Classic Cocktail</i></p>
+      <p class="ccc-nesto"> Savršen spoj kofeina i alkohola. </p>
+      <button class="expand-btn">Pogledaj recept</button>
+    </div>
+    <div class="cocktail-details">
+      <div class="details-grid">
+        <img src="{{ url_for('static', filename='Images/espresso_martini.jpg') }}" class="cocktail-card-image large-image"> 
+        <div class="cocktail-info">
+          <p><strong>Sastojci:</strong>
+          <br>50ml votka
+          <br>10ml Kahlua liker
+          <br>po želji šećerni sirup
+          <br>1 kratki espresso</p>
+          <p><strong>Recept:</strong> Stavite sve sastojke u shaker za koktele s ledom i miksajte dok se dobro ne ohladi. Procijedite u ohlađenu čašu i poslužite.
+          </p>
+          <p><strong>Nutritivne vrijednosti:</strong> 
+            <br>kcal: 107
+            <br>ugljikohidrati: 5g
+            <br>masti: 0g
+            <br>šećeri: 0.2g
+            <br>proteini: 0.1g
+            <br>soli: 0.02g
+          </p>
+  </div>
+  </div>
+</div>
+</div>
+
+  <div class="cocktail-card" data-category="Alkoholno" data-ingredients="Votka, Limun, Vermut" data-difficulty="Lako" data-time="5-10 minuta">
+    <div class="cocktail-card-content">
+      <button class="heart-btn" aria-label="Like">&#10084;</button>
+      <h2 class="cocktail-name">Votka Martini</h2>
+      <img src="{{ url_for('static', filename='Images/votka_martini.jpg') }}" alt="Slika Votka Martini koktela" class="cocktail-card-image small-image" />
+      <p class="ccc-nesto"><i>Classic Cocktail</i></p>
+      <p class="ccc-nesto"> Minimalizam u čaši, maksimalni užitak. </p>
+      <button class="expand-btn">Pogledaj recept</button>
+    </div>
+    <div class="cocktail-details">
+      <div class="details-grid">
+        <img src="{{ url_for('static', filename='Images/votka_martini.jpg') }}" class="cocktail-card-image large-image"> 
+        <div class="cocktail-info">
+          <p><strong>Sastojci:</strong>
+          <br>60ml votka
+          <br>1 žlica suhi vermut
+          <br>maslina ili kora od limuna</p>
+          <p><strong>Recept:</strong> Pomiješajte votku, suhi vermut i malo leda ili ih stavite u shaker za koktele da se sjedine. Procijedite u ohlađenu čašu za martini. Poslužite s maslinom na štapiću za koktel ili komadom limunove korice.
+          </p>
+          <p><strong>Nutritivne vrijednosti:</strong> 
+            <br>kcal: 155
+            <br>ugljikohidrati: 0.4g
+            <br>masti: 0g
+            <br>šećeri: 0.4g
+            <br>proteini: 0g
+            <br>soli: 0g</p>
+  </div>
+  </div>
+</div>
+</div>
+  <div class="cocktail-card" data-category="Alkoholno, Veganski, Bez glutena" data-ingredients="Rum, Mineralna voda, Limeta" data-difficulty="Lako" data-time="5-10 minuta">
+    <div class="cocktail-card-content">
+      <button class="heart-btn" aria-label="Like">&#10084;</button>
+      <h2 class="cocktail-name">Mojito</h2>
+      <img src="{{ url_for('static', filename='Images/mojito.jpg') }}" alt="Slika Mojito koktela"  class="cocktail-card-image small-image"/>
+      <p class="ccc-nesto"><i>Classic Cocktail</i></p>
+      <p class="ccc-nesto"> Tropski raj u čaši. </p>
+      <button class="expand-btn">Pogledaj recept</button>
+    </div>
+    <div class="cocktail-details">
+      <div class="details-grid">
+        <img src="{{ url_for('static', filename='Images/mojito.jpg') }}" class="cocktail-card-image large-image"> 
+        <div class="cocktail-info">
+          <p><strong>Sastojci:</strong>
+          <br>60 mL bijelog ruma
+          <br>1 limeta
+          <br>1 žličica šećera
+          <br>nekoliko listića mente
+          <br>mineralna voda</p>
+          <p><strong>Recept:</strong> Pomiješajte sok limete, šećer i listiće mente u malom vrču, usitnjavajući mentu.Ulijte u visoku čašu i dodajte šaku leda. Prelijte rumom i miješajte žlicom. Dolijte mineralnu vodu i ukrasite mentom.
+          </p>
+          <p><strong>Nutritivne vrijednosti:</strong> 
+            <br>kcal: 158
+            <br>ugljikohidrati: 4.6g
+            <br>šećeri: 4.3g
+            <br>proteini: 0.3g
+            <br>soli: 0g</p>
+  </div>
+  </div>
+</div>
+</div>
+  <div class="cocktail-card" data-category="Alkoholno, Veganski, Bez glutena" data-ingredients="Tekila, Limun, Naranča" data-difficulty="Lako" data-time="5-10 minuta">
+    <div class="cocktail-card-content">
+      <button class="heart-btn" aria-label="Like">&#10084;</button>
+      <h2 class="cocktail-name">Tequila Sunrise</h2>
+      <img src="{{ url_for('static', filename='Images/tequila_sunrise.jpg') }}" alt="Slika Tequila Sunrise koktela"  class="cocktail-card-image small-image" />
+      <p class="ccc-nesto"><i>Classic Cocktail</i></p>
+      <p class="ccc-nesto">Koktelska eksplozija boja i ukusa. </p>
+      <button class="expand-btn">Pogledaj recept</button>
+    </div>
+    <div class="cocktail-details">
+      <div class="details-grid">
+        <img src="{{ url_for('static', filename='Images/tequila_sunrise.jpg') }}" class="cocktail-card-image large-image"> 
+        <div class="cocktail-info">
+          <p><strong>Sastojci:</strong>
+          <br>50 mL tekile
+          <br>1 velika naranča
+          <br>1/2 limuna
+          <br>1 jušna žlica triple sec voćnog likera
+          <br>2 žličice grenadina
+          <br>led
+          <br>1 trešnja</p>
+          <p><strong>Recept:</strong> Ulijte grenadinu u visoku čašu i ostavite sa strane. Napunite shaker ledom, dodajte tekilu, triple sec i iscijeđenu naranču i limun. Protresite dok vanjski dio shakera ne postane hladan. Dodajte led u čašu, procijedite koktel, ukrasite trešnjom.
+          </p>
+          <p><strong>Nutritivne vrijednosti:</strong>
+            <br>kcal: 172
+            <br>ugljikohidrati: 15g
+            <br>šećeri: 11g
+            <br>proteini: 0.5g
+            <br>soli: 0.01g</p>
+  </div>
+  </div>
+</div>
+</div>
+
+  <div class="cocktail-card" data-category="Alkoholno, Bez glutena" data-ingredients="Mineralna voda" data-difficulty="Lako" data-time="5-10 minuta">
+    <div class="cocktail-card-content">
+      <button class="heart-btn" aria-label="Like">&#10084;</button>
+      <h2 class="cocktail-name">Aperol Spritz</h2>
+      <img src="{{ url_for('static', filename='Images/aperol_spritz.jpg') }}" alt="Slika Aperol Spritz koktela" class="cocktail-card-image small-image"/>
+      <p class="ccc-nesto"><i>Classic Cocktail</i></p>
+      <p class="ccc-nesto"> Lagano, voćno i idealno za uživanje. </p>
+      <button class="expand-btn">Pogledaj recept</button>
+    </div>
+    <div class="cocktail-details">
+      <div class="details-grid">
+        <img src="{{ url_for('static', filename='Images/aperol_spritz.jpg') }}" class="cocktail-card-image large-image"> 
+        <div class="cocktail-info">
+          <p><strong>Sastojci:</strong>
+          <br>150 mL prošeka
+          <br>100 mL Aperola
+          <br>led
+          <br>sok (po izboru)</p>
+          <p><strong>Recept:</strong> U 2 čaše stavite led, dodajte Aperol i podijelite prošek. Dolijte gazirani sok po želji.</p>
+          <p><strong>Nutritivne vrijednosti:</strong> 
+            <br>kcal: 136
+            <br>ugljikohidrati: 14g
+            <br>šećeri: 13g
+            <br>proteini: 0.2g
+            <br>soli: 0.03g
+          </p>
+  </div>
+  </div>
+</div>
+</div>
+
+  <div class="cocktail-card" data-category="Alkoholno, Bez glutena" data-ingredients="Gin, Mineralna voda, Limeta," data-difficulty="Lako" data-time="5-10 minuta">
+    <div class="cocktail-card-content">
+      <button class="heart-btn" aria-label="Like">&#10084;</button>
+      <h2 class="cocktail-name">Hugo</h2>
+      <img src="{{ url_for('static', filename='Images/hugo.jpg') }}" alt="Slika Hugo koktela" class="cocktail-card-image small-image" />
+      <p class="ccc-nesto"><i>Classic Cocktail</i></p>
+      <p class="ccc-nesto"> Za ljubitelje laganih, aromatičnih koktela. </p>
+      <button class="expand-btn">Pogledaj recept</button>
+    </div>
+    <div class="cocktail-details">
+      <div class="details-grid">
+        <img src="{{ url_for('static', filename='Images/hugo.jpg') }}" class="cocktail-card-image large-image"> 
+        <div class="cocktail-info">
+          <p><strong>Sastojci:</strong>
+          <br>20 mL gina
+          <br>20 mL sirupa od bazge
+          <br>led
+          <br>nekoliko listića mente (+ 1 grančica mente)
+          <br>120 mL prošeka
+          <br>25 mL mineralne vode
+          <br>1 kriška limete</p>
+          <p><strong>Recept:</strong> Zgnječite metvicu i stavite u čašu. Dodajte sirup, gin, led, mineralnu vodu i prošek. Promiješajte i ukrasite kriškom limete i grančicom mente.
+          </p>
+          <p><strong>Nutritivne vrijednosti:</strong> 
+            <br>kcal: 171
+            <br>ugljikohidrati: 10g
+            <br>šećeri: 10g
+            <br>proteini: 0.4g
+            <br>soli: 0.03g</p>
+  </div>
+  </div>
+</div>
+</div>
+
+  <div class="cocktail-card" data-category="Alkoholno, Veganski, Bez glutena" data-ingredients="Gin, Vermut, Naranča" data-difficulty="Lako" data-time="5-10 minuta">
+    <div class="cocktail-card-content">
+      <button class="heart-btn" aria-label="Like">&#10084;</button>
+      <h2 class="cocktail-name">Negroni</h2>
+      <img src="{{ url_for('static', filename='Images/negroni.jpg') }}" alt="Slika Negroni koktela" class="cocktail-card-image small-image"  />
+      <p class="ccc-nesto"><i>Classic Cocktail</i></p>
+      <p class="ccc-nesto"> Savršen balans gorkog i slatkog.</p>
+      <button class="expand-btn">Pogledaj recept</button>
+    </div>
+    <div class="cocktail-details">
+      <div class="details-grid">
+        <img src="{{ url_for('static', filename='Images/negroni.jpg') }}" class="cocktail-card-image large-image"> 
+        <div class="cocktail-info">
+          <p><strong>Sastojci:</strong>
+          <br>20 mL gina
+          <br>25 mL slatkog vermuta
+          <br>25 mL Camparija
+          <br>1 kriška naranče</p>
+          <p><strong>Recept:</strong> Pomiješajte gin, vermut i Campari s ledom. Procijedite u čašu, dodajte led i ukrasite kriškom naranče.</p>
+          <p><strong>Nutritivne vrijednosti:</strong> 
+            <br>kcal: 156
+            <br>ugljikohidrati: 0g
+            <br>šećeri: 12g
+            <br>proteini: 12g
+            <br>soli: 0.03g
+          </p>
+  </div>
+  </div>
+</div>
+</div>
+
+</div>    
+</main>
+
+        <div id ="cocktails-list-div"></div>
+
+        <script src="{{ url_for('static', filename='cocktails-java.js') }}"></script>
+        <script src="{{ url_for('static', filename='recipes.js') }}"></script>
+
+
+    </body>
+
+    
+    <footer>
+        <p>&copy; 2024 SipIT. All Rights Reserved.</p>
+    </footer>
+    
+  
+</html>

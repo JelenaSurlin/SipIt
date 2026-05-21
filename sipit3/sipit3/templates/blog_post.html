@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ article.title }} - SipIT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="blog-post-page">
+    <!-- Navigacijska alatna traka -->
+    <header>
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='Images/logo.png') }}" alt="Logo" class="logo">
+            <h1>SipIT</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Početna</a></li>
+                <li><a href="{{ url_for('recipes') }}">Recepti</a></li>
+                <li><a href="{{ url_for('barovi') }}">Barovi</a></li>
+                <li><a href="{{ url_for('lokacija') }}">Lokacija</a></li>
+                <li><a href="{{ url_for('blog') }}">Blog</a></li>
+                <li><a href="{{ url_for('contact') }}">Kontakt</a></li>
+                {% if session['username'] %}
+                  <li><a href="{{ url_for('profile') }}">Profil</a></li>
+                  <li><a href="{{ url_for('logout') }}">Odjava</a></li>
+              {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <article class="blog-post">
+            <h1>{{ article.title }}</h1>
+            <img src="{{ url_for('static', filename='Images/' + article.image) }}" alt="{{ article.title }}" class="article-image">
+            <div class="article-content">
+                <p>{{ article.content|safe }}</p>
+            </div>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <!-- Sekcija 1: Dijelovi web aplikacije -->
+            <div class="footer-section">
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Početna</a></li>
+                    <li><a href="{{ url_for('recipes') }}">Recepti</a></li>
+                    <li><a href="{{ url_for('blog') }}">Blog</a></li>
+                    <li><a href="{{ url_for('contact') }}">Kontakt</a></li>
+                </ul>
+            </div>
+            
+            <!-- Sekcija 2: Kontakt informacije -->
+            <div class="footer-section">
+                <h3>Kontakt informacije</h3>
+                <p>Email: <a href="mailto:mija.vujnovic2@gmail.com">info@sipit.hr</a></p>
+                <p>Telefon: +385 91 123 4567</p>
+                <p>Adresa: Ul. Ruđera Boškovića 32, 21000, Split
+                </p>
+            </div>
+            
+            <!-- Sekcija 3: Društvene mreže -->
+            <div class="footer-section">
+                <h3>Pratite nas</h3>
+                <ul class="social-links">
+                    <li>
+                        <a href="https://www.facebook.com/drinksipit/" target="_blank" rel="noopener noreferrer">
+                            <img src="{{ url_for('static', filename='Images/facebook-icon.png') }}" alt="Facebook" class="social-icon"> Facebook
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/drinksipit/" target="_blank" rel="noopener noreferrer">
+                            <img src="{{ url_for('static', filename='Images/instagram-icon.png') }}" alt="Instagram" class="social-icon"> Instagram
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.twitter.com/drinksipit/" target="_blank" rel="noopener noreferrer">
+                            <img src="{{ url_for('static', filename='Images/twitter-icon.png') }}" alt="Twitter" class="social-icon"> Twitter
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 SipIT. Sva prava pridržana.</p>
+        </div>
+    </footer>
+</body>
+</html>

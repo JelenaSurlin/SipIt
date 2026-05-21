@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="hr">
+<meta charset="UTF-8">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="./sipitlib.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.j_query.com/ui/1.12.1/jquery-ui.js"></script>
+    <title>SipIT</title>
+
+  </head>
+
+  <body>
+      <header>
+        <div class="logo-container">
+          <img src="{{ url_for('static', filename='Images/logo.png') }}" alt="Logo" class="logo">
+          <h1>SipIT</h1>
+      </div>
+          <nav>
+              <ul>
+                  <li><a href="{{ url_for('index') }}">Početna</a></li>
+                  <li><a href="{{ url_for('recipes') }}">Recepti</a></li>
+                  <li><a href="{{ url_for('barovi') }}">Barovi</a></li>
+                  <li><a href="{{ url_for('lokacija') }}">Lokacija</a></li>
+                  <li><a href="{{ url_for('blog') }}">Blog</a></li>
+                  <li><a href="{{ url_for('contact') }}">Kontakt</a></li>
+                  {% if session['username'] %}
+                    <li><a href="{{ url_for('profile') }}">Profil</a></li>
+                    <li><a href="{{ url_for('logout') }}">Odjava</a></li>
+                {% endif %}
+              </ul>
+          </nav>
+      </header>
+
+      <main>
+
+        <div id="center-container">
+          <img src="{{ url_for('static', filename='Images/profile.png') }}" alt="slicica" id="slicica">
+          <h1><strong>MOJ PROFIL</strong></h1>
+          <div id="info-div"></div>
+
+        </div>
+
+        
+      
+        
+      </main>
+  </body>
+
+  <script src="{{ url_for('static', filename='profile.js') }}"></script>
+
+
+
+</html>
+      

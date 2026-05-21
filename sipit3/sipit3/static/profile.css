@@ -1,0 +1,241 @@
+body {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f6f6;
+  color: #333;
+}
+
+main {
+  margin: 20px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: rgb(242, 242, 168); /* Ugodna zelena nijansa */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Lagana sjena ispod trake */
+    font-family:Georgia, 'Times New Roman', Times, serif ;
+    justify-content: space-between; /* Raspodjela između logoa i navigacije */
+    padding: 20px;
+    background-color: rgb(242, 242, 168);  
+}
+
+.ad{
+  font-size: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 100px auto auto auto;
+  
+}
+
+header .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: 2rem;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px;
+}
+
+
+
+nav ul{
+  list-style-type: none;
+  display: flex;
+  justify-content: flex-end; /* Smješteno na desnu stranu */
+  margin: 0;
+  padding: 0;
+  flex-grow: 1; /* Gura linkove na desnu stranu */
+}
+
+/* Hover efekt za navigacijske linkove */
+nav ul li a:hover {
+  background-color: rosybrown; /* Promjena boje pozadine na hover */
+  color: black; /* Tekst postaje zelene boje */
+}
+
+header nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+header nav ul li {
+  margin: 0 15px;
+}
+
+header nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+
+
+nav ul li a {
+  text-decoration: none;
+  color: rgb(255, 255, 255); /* Linkovi u crnoj boji za bolji kontrast */
+  font-size: 18px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body{
+
+background-color: #f0eeee;
+
+}
+
+#center-container {
+display: flex;
+flex-direction: column;
+margin-top: 330px;
+align-items: center;
+height: 50vh; /* Optional: Adjust to desired container height */
+
+}
+
+.logo-container {
+display: flex;
+align-items: center;
+}
+
+.logo {
+width: 150px; /* Povećaj širinu loga */
+height: 100px; /* Povećaj visinu loga */
+border-radius: 50%; /* Potpuno okrugla slika */
+margin-right: 15px;
+}
+
+h1 {
+color: black;
+font-size: 36px;
+margin: 0; /* Uklanja nepotrebni razmak ispod naslova */
+}
+
+#slicica{
+width: 110px; /* Povećaj širinu loga */
+height: 100px; /* Povećaj visinu loga */
+border-radius: 100%; /* Potpuno okrugla slika */
+margin-right: 15px;
+margin-bottom: 30px;
+}
+
+
+
+.username-style {
+font-size: 40px;
+color: rgb(255, 255, 255);
+margin-bottom: 10px;
+margin-left: 0px;
+font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.user-style{
+  font-weight: bold;
+
+}
+
+
+.heading-style {
+font-size: 40px;
+color: rgb(255, 255, 255);
+margin-bottom: 8px;
+}
+
+.list-style {
+list-style-type: none; /* Remove default bullets */
+padding-left: 30pxpx;
+color: #555;
+}
+
+.list-style li::marker {
+content: "♥ "; /* Use the heart symbol as the bullet */
+color: red; /* Optional: Set the heart color to red */
+font-size: 30px; /* Optional: Adjust the size of the heart */
+}
+
+
+
+/* Styling the info-div container */
+#center-container {
+display: flex;
+flex-direction: column;
+justify-content: start; /* Poravnaj sadržaj od vrha */
+align-items: center;
+padding: 20px;
+margin: 10px auto;
+background-color: #f0efef;
+border-radius: 10px;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+max-width: 400px;
+width: 100%;
+max-height: 400px; /* Maksimalna visina s omogućavanjem skrola */
+overflow-y: auto; /* Omogući vertikalni skrol */
+text-align: center; /* Centriraj tekst unutar containera */
+}
+
+
+/* Username and heading text styling */
+
+.user-style {
+font-weight: bold;
+color: #5e5d5d; /* Slightly darker gray for emphasis */
+}
+.username-style {
+font-size: 18px;
+
+color: #5e5d5d; /* Dark gray for text */
+margin-bottom: 10px;
+}
+
+
+
+/* Heading for favorites */
+.heading-style {
+font-size: 16px;
+color: #5e5d5d; /* Dark gray for text */ /* Medium gray for the heading */
+margin-top: 15px;
+margin-bottom: 10px;
+
+}
+
+/* List styling for favourites */
+.list-style {
+list-style-type: none; /* Remove default bullets */
+padding-left: 0; /* Remove padding on the left */
+color: #5e5d5d; /* Light gray for list items */
+font-size: 16px;
+}
+
+/* Custom heart marker for the list */
+.list-style li::marker {
+content: "♥ "; /* Empty heart as the bullet */
+color: rgb(242, 198, 168); /* Red color for the heart */
+font-size: 16px; /* Adjust the size of the heart */
+border: 2px solid #333;
+}
+
+/* Add some spacing to list items */
+.list-style li {
+margin-bottom: 8px;
+}
+
+#center-container h1{
+font-size: 22px;
+color:#333;
+}

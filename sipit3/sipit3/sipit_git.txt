@@ -1,0 +1,8 @@
+git pull-prije svakog mijenjanja i pushanja !!!!
+git push-cim zavrsite s izmjenama !!!!
+
+Svako nek stavi svoj username i email
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+
+

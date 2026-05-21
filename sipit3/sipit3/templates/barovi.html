@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='barovi.css') }}">
+    <title>SipIT - Barovi</title>
+</head>
+<body>
+    <header>
+      <div class="logo-container">
+        <img src="{{ url_for('static', filename='Images/logo.png') }}" alt="Logo" class="logo">
+        <h1>SipIT</h1>
+    </div>
+        <nav>
+          <ul>
+            <li><a href="{{ url_for('index') }}">Početna</a></li>
+            <li><a href="{{ url_for('recipes') }}">Recepti</a></li>
+            <li><a href="{{ url_for('barovi') }}">Barovi</a></li>
+            <li><a href="{{ url_for('lokacija') }}">Lokacija</a></li>
+            <li><a href="{{ url_for('blog') }}">Blog</a></li>
+            <li><a href="{{ url_for('contact') }}">Kontakt</a></li>
+            {% if session['username'] %}
+              
+              <li><a href="{{ url_for('profile') }}">Profil</a></li>
+              <li><a href="{{ url_for('logout') }}">Odjava</a></li>
+          {% endif %}
+          </ul>
+        </nav>
+    </header>
+
+    <div class="content-container">
+    <main>
+      <div class="ad">
+        <h1>Savršen bar za svaki trenutak!</h1>
+        <p>Pronađi barove u svojem gradu i istraži jedinstvene koktele koje nude!</p>
+      </div>
+
+      <div class="search-container">
+        <input type="text" id="search-input" class="search-input"  placeholder="Pretraži...">
+        <button class="search-button" id="search-button" aria-label="Search..." onclick="CocktailInput()">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m2.69-5.14a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z" />
+        </svg>
+        </button>
+      </div>
+
+        <div class="container" id="bar-cards">
+    
+          <!-- Sistema -->
+          <div class="bar-card">
+            <div class="bar-card-content">
+              <h2 class="bar-name">Sistema</h2>
+              <img src="{{ url_for('static', filename='Images/sistema.jpg') }}" class="bar-image small-image"> 
+               <button class="expand-btn">Pogledaj bar</button>
+            </div>
+            <div class="bar-details">
+              <div class="details-grid">
+                  <img src="{{ url_for('static', filename='Images/sistema.jpg') }}" class="bar-image large-image"> 
+                <div class="bar-info">
+                  <p><strong>Adresa:</strong> Ulica Andrije Kačića Miošića 7</p>
+                  <p><strong>Ocjena:</strong> 4.9/5</p>
+                  <p><strong>Radno vrijeme:</strong> 17:00 – 01:00</p>
+                  <p><strong>Kontakt:</strong> 091 954 9120</p>
+                  <!-- <img src="{{ url_for('static', filename='Images/albatros.jpg') }}" class="bar-image">  -->
+                  <p class="barCocktails"><strong>Kokteli:</strong> Martini, Long Island Ice Tea, Strawberry Margarita, Pina Colada, Espresso Martini</p>
+                </div>
+                </div>
+            </div>
+          </div>
+           <!-- Pun kufer -->
+          <div class="bar-card">
+            <div class="bar-card-content">
+                <h2 class="bar-name">Pun kufer</h2>
+                <img src="{{ url_for('static', filename='Images/punkufer.jpg') }}" class="bar-image small-image">
+                <button class="expand-btn">Pogledaj bar</button>
+                
+              </div>
+              <div class="bar-details">
+                  <div class="details-grid">
+                    <img src="{{ url_for('static', filename='Images/punkufer.jpg') }}" class="bar-image large-image">
+                    <div class="bar-info">
+                      <p><strong>Adresa:</strong> ul. kralja Petra Krešimira IV 3</p>
+                      <p><strong>Ocjena:</strong> 4.7/5</p>
+                      <p><strong>Radno vrijeme:</strong> 11:00 – 01:00</p>
+                      <p><strong>Kontakt:</strong> 021 355 368</p>
+                      <!-- <img src="{{ url_for('static', filename='Images/punkufer.jpg') }}" class="bar-image"> -->
+                      <p class="barCocktails"><strong>Kokteli:</strong> Mojito, Tequila Sunrise, Aperol Spritz, Hugo, Margarita Classic</p>
+                    </div>
+                  </div>
+                  </div>
+              </div>
+          <!-- String's -->
+          <div class="bar-card">
+            <div class="bar-card-content">
+                <h2 class="bar-name">String's</h2>
+                <img src="{{ url_for('static', filename='Images/strings.jpg') }}" class="bar-image small-image">
+                <button class="expand-btn">Pogledaj bar</button>
+            
+              </div>
+              <div class="bar-details">
+                  <div class="details-grid">
+                    <img src="{{ url_for('static', filename='Images/strings.jpg') }}" class="bar-image large-image">
+                    <div class="bar-info">
+                    <p><strong>Adresa:</strong> Zagrebačka 1</p>
+                    <p><strong>Ocjena:</strong> 4.9/5</p>
+                    <p><strong>Radno vrijeme:</strong> 17:00 – 01:00</p>
+                    <!--<img src="{{ url_for('static', filename='Images/strings.jpg') }}" class="bar-image">  -->
+                    <p class="barCocktails"><strong>Kontakt:</strong> Nema rezervacija</p>
+                  </div>
+                </div>
+                </div>
+            </div>
+          <!-- Moon Bar -->
+          <div class="bar-card">
+            <div class="bar-card-content">
+                <h2 class="bar-name">Moon Bar</h2>
+                <img src="{{ url_for('static', filename='Images/moon.jpg') }}" class="bar-image small-image">
+                <button class="expand-btn">Pogledaj bar</button>
+               
+              </div>
+              <div class="bar-details">
+                  <div class="details-grid">
+                    <img src="{{ url_for('static', filename='Images/moon.jpg') }}" class="bar-image large-image">
+                    <div class="bar-info">
+                    <p><strong>Adresa:</strong> Ul. Matice hrvatske 1</p>
+                    <p><strong>Ocjena:</strong> 4.5/5</p>
+                    <p><strong>Radno vrijeme:</strong> 07:00 – 00:00</p>
+                    <p><strong>Kontakt:</strong> 091 338 1111</p>
+                    <!-- <img src="{{ url_for('static', filename='Images/moon.jpg') }}" class="bar-image"> -->
+                    <p class="barCocktails"><strong>Kokteli:</strong> Espresso Martini, Votka Martini, Tequila Sunrise, Negroni</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- Tennis -->
+          <div class="bar-card">
+            <div class="bar-card-content">
+                <h2 class="bar-name">Tennis</h2>
+                <img src="{{ url_for('static', filename='Images/tennis.jpg') }}" class="bar-image small-image">
+                <button class="expand-btn">Pogledaj bar</button>
+                
+              </div>
+              <div class="bar-details">
+                  <div class="details-grid">
+                    <img src="{{ url_for('static', filename='Images/tennis.jpg') }}" class="bar-image large-image">
+                    <div class="bar-info">
+                    <p><strong>Adresa:</strong> Put Firula 18</p>
+                    <p><strong>Ocjena:</strong> 4.7/5</p>
+                    <p><strong>Radno vrijeme:</strong> 07:00 – 02:00</p>
+                    <p><strong>Kontakt:</strong> 099 277 1121</p>
+                    <!-- <img src="{{ url_for('static', filename='Images/tennis.jpg') }}" class="bar-image"> -->
+                    <p class="barCocktails"><strong>Kokteli:</strong> Strawberry Margarita, Pina Colada, Daiquiri, Mojito</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- Stella -->
+          <div class="bar-card">
+            <div class="bar-card-content">
+                <h2 class="bar-name">Stella</h2>
+                <img src="{{ url_for('static', filename='Images/stella.jpg') }}" class="bar-image small-image">
+                <button class="expand-btn">Pogledaj bar</button>
+                
+              </div>
+              <div class="bar-details">
+                  <div class="details-grid">
+                    <img src="{{ url_for('static', filename='Images/stella.jpg') }}" class="bar-image large-image">
+                    <div class="bar-info">
+                    <p><strong>Adresa:</strong> Ul. Alojzija Stepinca 2</p>
+                    <p><strong>Ocjena:</strong> 4.6/5</p>
+                    <p><strong>Radno vrijeme:</strong> 07:00 – 00:00</p>
+                    <p><strong>Kontakt:</strong> 021 324 970</p>
+                    <!-- <img src="{{ url_for('static', filename='Images/stella.jpg') }}" class="bar-image">  -->
+                    <p class="barCocktails"><strong>Kokteli:</strong> Tequila Sunrise, Aperol Spritz, Hugo, Negroni</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- Antique -->
+          <div class="bar-card">
+            <div class="bar-card-content">
+                <h2 class="bar-name">Antique</h2>
+                <img src="{{ url_for('static', filename='Images/antique.jpg') }}" class="bar-image small-image">
+                <button class="expand-btn">Pogledaj bar</button>
+                
+              </div>
+              <div class="bar-details">
+                  <div class="details-grid">
+                    <img src="{{ url_for('static', filename='Images/antique.jpg') }}" class="bar-image large-image">
+                    <div class="bar-info">
+                    <p><strong>Adresa:</strong> Obala Hrvatskog narodnog preporoda 6</p>
+                    <p><strong>Ocjena:</strong> 3.4/5</p>
+                    <p><strong>Radno vrijeme:</strong> 08:00 – 00:00</p>
+                    <p><strong>Kontakt:</strong> 099 332 2281</p>
+                    <!-- <img src="{{ url_for('static', filename='Images/antique.jpg') }}" class="bar-image">  -->
+                    <p class="barCocktails"><strong>Kokteli:</strong> Margarita Classic, Strawberry Margarita, Long Island Ice Tea, Pina Colada</p>
+                  </div>
+                </div>
+                </div>
+            </div>
+    
+          <!-- Teak -->
+    
+          <div class="bar-card">
+            <div class="bar-card-content">
+                <h2 class="bar-name">Teak</h2>
+                <img src="{{ url_for('static', filename='Images/teak.jpg') }}" class="bar-image small-image">
+                <button class="expand-btn">Pogledaj bar</button>
+                
+              </div>
+              <div class="bar-details">
+                  <div class="details-grid">
+                    <img src="{{ url_for('static', filename='Images/teak.jpg') }}" class="bar-image large-image">
+                    <div class="bar-info">
+                    <p><strong>Adresa:</strong> Majstora Jurja 11</p>
+                    <p><strong>Ocjena:</strong> 4.6/5</p>
+                    <p><strong>Radno vrijeme:</strong> 08:00 – 00:00</p>
+                    <p><strong>Kontakt:</strong> 021 782 010</p>
+                    <!-- <img src="{{ url_for('static', filename='Images/teak.jpg') }}" class="bar-image"> -->
+                    <p class="barCocktails"><strong>Kokteli:</strong> Sex on the Beach, Cosmopolitan Classic, Espresso Martini</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- Picasso -->
+          <div class="bar-card">
+            <div class="bar-card-content">
+                <h2 class="bar-name">Picasso</h2>
+                <img src="{{ url_for('static', filename='Images/picasso.jpg') }}" class="bar-image small-image">
+                <button class="expand-btn">Pogledaj bar</button>
+                
+              </div>
+              <div class="bar-details">
+                  <div class="details-grid">
+                    <img src="{{ url_for('static', filename='Images/picasso.jpg') }}" class="bar-image large-image">
+                    
+                    <div class="bar-info">
+                    <p><strong>Adresa:</strong> Krešimirova ul. 4</p>
+                    <p><strong>Ocjena:</strong> 4.2/5</p>
+                    <p><strong>Radno vrijeme:</strong> 07:00 – 01:00</p>
+                    <p><strong>Kontakt:</strong> 099 825 4384</p>
+                    <!--<img src="{{ url_for('static', filename='Images/picasso.jpg') }}" class="bar-image"> -->
+                    <p class="barCocktails"><strong>Kokteli:</strong> Strawberry Margarita, Espresso Martini, Mojito, Tequila Sunrise</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- Albatros -->
+          <div class="bar-card">
+            <div class="bar-card-content">
+                <h2 class="bar-name">Albatros</h2>
+                <img src="{{ url_for('static', filename='Images/albatros.jpg') }}" class="bar-image small-image">
+                <button class="expand-btn">Pogledaj bar</button>
+               
+              </div>
+              <div class="bar-details">
+                  <div class="details-grid">
+                    <img src="{{ url_for('static', filename='Images/albatros.jpg') }}" class="bar-image large-image">
+                   <div class="bar-info">
+                    <p><strong>Adresa:</strong> Ul. Bruna Bušića 14</p>
+                    <p><strong>Ocjena:</strong> 4.6/5</p>
+                    <p><strong>Radno vrijeme:</strong> 07:00 – 00:00</p>
+                    <p><strong>Kontakt:</strong> 021 567 948</p>
+                    <!-- <img src="{{ url_for('static', filename='Images/albatros.jpg') }}" class="bar-image"> -->
+                    <p class="barCocktails"><strong>Kokteli:</strong> Mojito, Aperol Spritz, Hugo, Negroni</p>
+                  </div>
+                </div>
+                </div>
+            </div>
+    
+        </div>
+      </main>
+    </div>
+      <footer>
+        <p>&copy; 2024 SipIT. All Rights Reserved.</p>
+      </footer>
+    
+      <script src="{{ url_for('static', filename='barovi.js') }}"></script>
+    
+    </body>
+    </html>

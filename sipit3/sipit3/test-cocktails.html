@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="hr">
+<meta charset="UTF-8">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="cocktails-style.css">
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="./sipitlib.js"></script>
+
+      <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+      <script src="https://code.j_query.com/ui/1.12.1/jquery-ui.js"></script>
+      <title>SipIT</title>
+      <!DOCTYPE html>
+      <html lang="en">
+  
+  <body>
+    <header>
+      <div class="container">
+          <h1>Recepti za koktele</h1>
+          <p>Otkrij novo piće!</p>
+      </div>
+    </header>
+    
+    <main>
+      <div class="ad">
+          <h1>Pronađi svoj omiljeni koktel!</h1>
+          <p>Istraži razne vrste koktela i nađi najbolji za sebe i svoje prijatelje!</p>
+
+      </div>
+    
+      <div class="search-container">
+        <input type="text" id="search-input" class="search-input"  placeholder="Pretraži...">
+        <button class="search-button" id="search-button" aria-label="Search..." onclick="CocktailInput()">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m2.69-5.14a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z" />
+        </svg>
+        </button>
+      </div>
+
+      <div class="filters">
+        <div class="filter" data-filter="category">Kategorija</div>
+        <div class="filter" data-filter="ingredients">Sastojci</div>
+        <div class="filter" data-filter="difficulty">Težina</div>
+        <div class="filter" data-filter="time">Vrijeme</div>
+      </div>
+      
+      <div class="filter-options" id="category-options">
+        <label><input type="checkbox" class="filter-checkbox" name="Alkoholno" /> Alkoholno</label>
+        <label><input type="checkbox" class="filter-checkbox" name="Bezalkoholno" /> Bezalkoholno</label>
+        <label><input type="checkbox" class="filter-checkbox" name="Vegansk" /> Veganski</label>
+        <label><input type="checkbox" class="filter-checkbox" name="Gluten" /> Bez glutena</label>
+        <label><input type="checkbox" class="filter-checkbox" name="Dairy" /> Bez laktoze</label>
+      </div>
+    <div class="filter-options" id="ingredients-options">
+      <label><input type="checkbox" class="filter-checkbox" name="Vot" /> Votka</label>
+      <label><input type="checkbox" class="filter-checkbox" name="Gin" /> Gin</label>
+      <label><input type="checkbox" class="filter-checkbox" name="Tekil" /> Tekila</label>
+      <label><input type="checkbox" class="filter-checkbox" name="Rum" /> Rum</label>
+      <label><input type="checkbox" class="filter-checkbox" name="Vermut" /> Vermut</label>
+      <label><input type="checkbox" class="filter-checkbox" name="Rum" /> Rum</label>
+      <label><input type="checkbox" class="filter-checkbox" name="Limet" /> Limeta</label>
+      <label><input type="checkbox" class="filter-checkbox" name="Naranč" /> Naranča</label>
+      <label><input type="checkbox" class="filter-checkbox" name="Limun" /> Limun</label>
+      <label><input type="checkbox" class="filter-checkbox" name="Mineraln" /> Mineralna voda</label>
+    </div>
+    <div class="filter-options" id="difficulty-options">
+      <label><input type="checkbox" class="filter-checkbox" name="Lako" /> Lako</label>
+      <label><input type="checkbox" class="filter-checkbox" name="Srednje" /> Srednje</label>
+      <label><input type="checkbox" class="filter-checkbox" name="Teško" /> Teško</label>
+    </div>
+    <div class="filter-options" id="time-options">
+      <label><input type="checkbox" class="filter-checkbox" name="$lt5 minuta" /> &lt5 minuta</label>
+      <label><input type="checkbox" class="filter-checkbox" name="5-10 minuta" /> 5-10 minuta</label>
+      <label><input type="checkbox" class="filter-checkbox" name="10-20 minuta" /> 10-20 minuta</label>
+      <label><input type="checkbox" class="filter-checkbox" name=">20 minuta" /> >20 minuta</label>
+    </div>
+      
+    </div>
+    <h1>Lista koktela</h1>
+    <div id="cocktail-list">
+      <!-- <div class="cocktail-card" data-category="Alkoholno" data-ingredients="Tekila, Triple Sec" data-difficulty="Lako" data-time="5-10 minuta">
+          <h2>Margarita Classic</h2>
+          <p class="category">Classic Cocktail</p>
+          <p>Idealno za ljetnu večer.</p>
+          <button  class="view-recipe-btn">Pogledaj recept</button>
+
+          <div class="card-details hidden">
+            <p><strong>Recept:</strong> Pomiješajte tekilu, sok od limete i triple sec.</p>
+            <p><strong>Nutritivne vrijednosti:</strong> 150 kalorija</p>
+            <img src="margarita.jpg" alt="Slika Margarita koktela" />
+          </div>  
+      </div> -->
+      
+      <div class="cocktail-card" data-category="Alkoholno" data-ingredients="Tekila, Triple Sec" data-difficulty="Lako" data-time="5-10 minuta">
+        <h2>Margarita Classic</h2>
+        <img src="Images/margarita_classic.jpg" alt="Slika Margarita koktela" />
+        <p class="category">Classic Cocktail</p>
+        <p>Idealno za ljetnu večer.</p>
+        <button class="view-recipe-btn">Pogledaj recept</button>
+
+        <div class="card-details hidden">
+            <p><strong>Recept:</strong> Pomiješajte tekilu, sok od limete i triple sec.</p>
+            <p><strong>Nutritivne vrijednosti:</strong> 150 kalorija</p>
+        </div>  
+    </div>
+      
+        
+      
+      <div class="cocktail-card" data-category="Alkoholno" data-ingredients="Gin, Vermut" data-difficulty="Srednje" data-time="5-10 minuta">
+        <h2>Martini</h2>
+        <p class="category">Classic Cocktail</p>
+        <p>Elegantno i bezvremenski.</p>
+        <button>Pogledaj recept</button>
+      </div>
+      
+      <div class="cocktail-card" data-category="Alkoholno, Veganski" data-ingredients="Tekila, Vermut" data-difficulty="Srednje" data-time="5-10 minuta">
+        <h2>Strawberry Margarita</h2>
+        <p class="category">Classic Cocktail</p>
+        <p> nadopuni nekom frazom.</p>
+        <button> Pogledaj recept </button>
+      </div>
+      <div class="cocktail-card" data-category="Alkoholno, Veganski, Bez laktoze" data-ingredients="Tekila, Limun, Votka, Gin, Rum" data-difficulty="Srednje" data-time="5-10 minuta">
+        <h2>Long Island Ice Tea</h2>
+        <p class="category">Classic Cocktail</p>
+        <p> nadopuni nekom frazom.</p>
+        <button> Pogledaj recept </button>
+        
+      </div>
+      </div>    
+    </main>
+
+    <div id ="parent-div">TEEeeeest</div>
+
+    <script src="cocktails-java.js"></script>
+    <script src="test-cocktails.js"></script>
+
+  </body>
+
+    
+  <footer>
+      <p>&copy; 2024 SipIT. All Rights Reserved.</p>
+  </footer>
+    
+  
+</html>

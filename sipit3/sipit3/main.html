@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="hr">
+<meta charset="UTF-8">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="./sipitlib.js"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+</head>
+<body>
+
+    <div class=divcontainer>
+   <!--
+    <input type="text" id="cocktail_id" name="cocktail">
+    <input type="text" id="image_id">
+    <input type="text" id="ingredients_id">
+		<input type=button id=cocktails_input_id class=headbutton onclick=CocktailInput() value="Upisi"></button>
+    <input type=button id=image_input_id class=headbutton onclick=ImageInput() value="Upisi"></button>
+    <input type=button id=ingredients_input_id class=headbutton onclick=IngredientsInput() value="Upisi"></button>
+
+    -->
+
+
+  </div>
+
+
+  <div id = "id_cocktails_div"></div>
+
+<script>
+
+
+// function CocktailInput(){
+//   formobj={};
+	
+//   formobj.name=document.getElementById("cocktail_id").value;
+//   APIQuery(formobj,"cocktails.php", APIreturnStatusCocktail);
+
+// }
+
+// function ImageInput(){
+//   formobj={};
+//   ingredients.push(document.getElementById("cocktail_id").value);
+//   alert(ingredients);
+//   formobj.ingredients = ingredients;
+//   alert(formobj);
+//   alert("debug");
+//   APIQuery(formobj,"cocktails.php", APIreturnStatusIngredients);
+
+// }
+
+// function IngredientsInput(){
+//   formobj={};
+//   ingredients =[];
+//   ingredients.push(document.getElementById("cocktail_id").value);
+//   alert(ingredients);
+//   formobj.ingredients = ingredients;
+//   alert(formobj);
+//   alert("debug");
+//   APIQuery(formobj,"cocktails.php", APIreturnStatusIngredients);
+
+// }
+
+// formobj ={}
+
+// formobj.name = "Cosmonaut";
+// APIQuery(formobj,"cocktails.php", APIreturnStatusCocktail);
+// APIQuery(formobj,"cocktails.php", APIreturnStatusImage);
+
+// formobj.ingredients = ["sol", "limun"];
+
+
+//formobj.ingredients = ["sol"];
+
+
+function APIreturnStatusCocktail(jobj){
+  alert(jobj);
+  objRet={};
+  objRet=JSON.parse(jobj);
+  
+  // const div_object = document.getElementById("id_cocktails_div");
+  // div_object.textContent = jobj;
+  // div_object.textContent = "čšć";
+
+  document.write(objRet.image);
+
+}
+
+
+function APIreturnStatusImage(jobj){
+  alert(jobj);
+  objRet={};
+  objRet=JSON.parse(jobj);
+
+
+  const image = document.createElement('img');
+  image.src = objRet.image; // Ensure the path is correct relative to your HTML file
+  document.body.appendChild(image);
+
+  
+}
+
+
+function APIreturnStatusIngredients(jobj){
+  alert(jobj);
+  objRet={};
+  objRet=JSON.parse(jobj);
+  alert(objRet.find);
+  
+  // const div_object = document.getElementById("id_cocktails_div");
+  // div_object.textContent = jobj;
+  // div_object.textContent = "čšć";
+
+
+
+  
+}
+
+
+</script>
+
+</body>
+</html>
+

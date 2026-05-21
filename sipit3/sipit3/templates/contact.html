@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Kontakt - SipIT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> <!-- Ovdje poveži svoj CSS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='Images/logo.png') }}" alt="Logo" class="logo">
+            <h1>SipIT</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Početna</a></li>
+                <li><a href="{{ url_for('recipes') }}">Recepti</a></li>
+                <li><a href="{{ url_for('barovi') }}">Barovi</a></li>
+                <li><a href="{{ url_for('lokacija') }}">Lokacija</a></li>
+                <li><a href="{{ url_for('blog') }}">Blog</a></li>
+                <li><a href="{{ url_for('contact') }}">Kontakt</a></li>
+                {% if session['username'] %}
+                  <li><a href="{{ url_for('profile') }}">Profil</a></li>
+                  <li><a href="{{ url_for('logout') }}">Odjava</a></li>
+              {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="contact-section">
+            <div class="container">
+                <h2>Kontaktirajte nas</h2>
+                <p>Imate pitanje ili želite podijeliti mišljenje? Ovdje možete poslati poruku.</p>
+                
+                <!-- Forma šalje podatke putem AJAX-a -->
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Ime i Prezime:</label>
+                        <input type="text" id="name" name="name" placeholder="Vaše ime" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" placeholder="Vaš email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Poruka:</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Vaša poruka" required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Pošaljite poruku</button>
+                </form>
+
+                <!-- Google Mapa -->
+                <div class="map">
+                    <h3>Naša lokacija</h3>
+                    <!-- Google Maps iframe embed kod -->
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2900.9134950053323!2d16.463257214789335!3d43.507746979127546!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13355e3cbb175f2d%3A0x505534f00924e86!2sRu%C4%91era%20Bo%C5%A1kovi%C4%87%2032%2C%2021000%20Split%2C%20Croatia!5e0!3m2!1sen!2shr!4v1602531742644!5m2!1sen!2shr"
+                        width="600" 
+                        height="450" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+
+                <!-- Banner koji se prikazuje kada je poruka uspješno poslana -->
+                <div id="success-banner" style="display:none; background-color: green; color: white; text-align: center; padding: 10px; margin-top: 20px;">
+                    Poruka je uspješno poslana!
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 SipIT. Sva prava pridržana.</p>
+        <ul class="social-links">
+            <li><a href="https://www.facebook.com/drinksipit/" target="_blank">Facebook</a></li>
+            <li><a href="https://www.instagram.com/drinksipit/" target="_blank">Instagram</a></li>
+            <li><a href="https://twitter.com/drinksipit" target="_blank">Twitter</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+            document.getElementById('contactForm').addEventListener('submit', function(e){
+                e.preventDefault(); // Sprječava automatsko slanje forme
+    
+                var formData = new FormData(this); // Prikuplja podatke iz forme
+    
+                fetch('/send_email', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Ako je poruka uspješno poslana, prikazujemo banner
+                        document.getElementById('success-banner').style.display = 'block';
+                        setTimeout(() => {
+                            document.getElementById('success-banner').style.display = 'none';
+                        }, 5000);
+                    } else {
+                        throw new Error('Došlo je do pogreške prilikom slanja poruke.');
+                    }
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
+            });
+        });
+    </script>
+    
+</body>
+</html>

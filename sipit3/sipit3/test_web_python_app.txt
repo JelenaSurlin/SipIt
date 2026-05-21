@@ -1,0 +1,202 @@
+
+
+
+php-------------------------------
+
+<?php 
+    header("Content-type: application/json");
+    $command = escapeshellcmd('python3 ./ah/vrsta_rashoda.py ' .   base64_encode($_POST["postVar"]) );
+    $commanderr = $command . " "  . " 2>&1";
+    $output = shell_exec($command .  ' 2>&1');
+    $myfile = fopen("logPHP_rashod.txt", "w") or die("Unable to open file!");
+		fwrite ( $myfile, $output);; 
+    echo $output; 
+?>
+
+
+----------------------------------------------
+
+sipitlib.js
+
+function APIQuery(jobj,url, funccall){
+  //obj={ name:jparam, prezime:"Pezelj" };
+	var objJSON=JSON.stringify(jobj);
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      funccall(xmlhttp.response);
+    }
+  };
+  xmlhttp.open("POST", url, true);
+  //xmlhttp.responseType="json";
+  xmlhttp.responseType="text";
+
+  xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xmlhttp.send("postVar="+objJSON)
+  };
+  
+  
+  -------------------------------------------------
+  
+  
+  main.html
+  
+  
+  <!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<head>
+<link rel="stylesheet" href="./lib/sipitlib.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="./ah/sipitlib.js"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+</head>
+<body>
+<div id="maindiv">
+
+	<div style="width:100%">
+	<button id=bankcount class=headbutton>Bank count</button>
+	<button id=dodajprihod class=headbutton>Dodaj prihod</button>
+	<button id=dodajrashod class=headbutton>Dodaj rashod</button>
+	<button id=prihodbutt class=headbutton>Prihodi</button>
+	<button id=logovi class=headbutton>Logovi</button>
+	
+	<button class=headbutton style="float:right" onclick='FormSend()';>Osvježi</button>
+	<br>
+	</div>
+
+	<div  id=maincontainer class=maincontainer>
+	
+	</div>
+</div>
+<script>
+$("#prihodbutt").click(function () { 
+	    $("#maincontainer").load("prihodi.html");
+	    FormSend();
+});
+$("#dodajprihod").click(function () { 
+		window.prihodiID="";
+    $("#maincontainer").load("addprihod.html");
+});
+$("#dodajrashod").click(function () { 
+		window.prihodiID="";
+    $("#maincontainer").load("addrashod.html");
+});
+$("#bankcount").click(function () { 
+		window.prihodiID="";
+    $("#maincontainer").load("bankcount.html");
+});
+$("#logovi").click(function () { 
+		window.prihodiID="";
+    $("#maincontainer").load("logovi.html");
+    FormSend();
+    
+});
+
+</script>
+</body>
+</html>
+
+
+
+--------------test.html-----------------------------------------------------------
+
+<html>
+<meta charset="UTF-8">
+
+<head>
+
+</head>
+<body>
+
+<div class=divcontainer>
+
+
+		<p class=textbasic> text1: <input type=text id=text1></input></p>
+		<p class=textbasic> text2: <input type=text id=text2></input></p>
+		<input type=button id=upisi class=headbutton onclick=Upisitext() value="Upiši text"></bu tton>
+
+
+</div>
+
+<script>
+
+
+APIQuery("{}","test.php",returnTest);
+
+
+
+prihodiID=window.prihodiID;
+if (prihodiID==null || prihodiID=="" ){
+	prihodiID="";
+}
+else{
+	document.getElementById("upisi").value="Promijeni Prihod"
+	dohvatiPrihod();
+	
+}
+
+function returnTest(jobj){
+var objReturned={};
+objReturned=JSON.parse(jobj);
+
+document.getElementById("text1").value=objReturned.ret
+}
+
+
+function Upisitext(){
+  formobj={};
+	
+  formobj.text1=document.getElementById("text1").value;
+  formobj.text1=document.getElementById("text1").value;
+
+  APIQuery(formobj,"test.php", APIreturnStatus);
+
+}
+
+
+function APIreturnStatus(jobj){
+objRet={};
+objRet=JSON.parse(jobj);
+	alert(objRet.ret);
+	}
+
+
+}
+
+
+</script>
+</body>
+</html>
+
+
+-----------------------
+
+
+------------------test.py----------------------------------------------------------------
+
+
+import sys
+import json
+import base64
+from datetime import date
+from datetime import datetime
+from myLogging import myLogging
+
+inputdict=json.loads(base64.b64decode(sys.argv[1]))
+#inputdict=json.loads(sys.argv[1])
+
+
+logging=myLogging("/var/log/spitit.log")
+
+
+outdict={}
+outdict['ret']="Jupi radi"
+
+logging.debug(inputdict)
+
+
+print(json.dumps(outdict))

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SipIT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='Images/logo.png') }}" alt="Logo" class="logo">
+            <h1>SipIT</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">Početna</a></li>
+                <li><a href="{{ url_for('recipes') }}">Recepti</a></li>
+                <li><a href="{{ url_for('barovi') }}">Barovi</a></li>
+                <li><a href="{{ url_for('lokacija') }}">Lokacija</a></li>
+                <li><a href="{{ url_for('blog') }}">Blog</a></li>
+                <li><a href="{{ url_for('contact') }}">Kontakt</a></li>
+                {% if session['username'] %}
+                  <li><a href="{{ url_for('profile') }}">Profil</a></li>
+                  <li><a href="{{ url_for('logout') }}">Odjava</a></li>
+                  
+              {% endif %}
+            </ul>
+        </nav>
+    </header>
+    
+    
+    <!-- Slideshow -->
+    <div class="slideshow">
+        <img src="{{ url_for('static', filename='Images/image1.jpg') }}" alt="Slideshow Image 1" class="slide">
+        <img src="{{ url_for('static', filename='Images/image2.jpg') }}" alt="Slideshow Image 2" class="slide">
+        <img src="{{ url_for('static', filename='Images/image3.jpg') }}" alt="Slideshow Image 3" class="slide">
+    </div>
+    
+    <!-- Sekcija sa linkovima i slikama -->
+    <div class="links-section">
+        <div class="link-group">
+            <div class="link-item">
+                <img src="{{ url_for('static', filename='Images/winter-cocktails.jpg') }}" alt="Top 10 koktela za ovu zimu">
+                <a href="{{ url_for('blog_post', article_id=1) }}">Top 10 koktela za ovu zimu</a>
+            </div>
+            <div class="link-item">
+                <img src="{{ url_for('static', filename='Images/beginner-cocktails.jpg') }}" alt="Kokteli za početnike">
+                <a href="{{ url_for('blog_post', article_id=2) }}">Kokteli za početnike</a>
+            </div>
+            <div class="link-item">
+                <img src="{{ url_for('static', filename='Images/martini-secrets.jpg') }}" alt="Tajne martinija">
+                <a href="{{ url_for('blog_post', article_id=3) }}">Tajne martinija</a>
+            </div>
+        </div>
+    
+        <div class="link-group">
+            <div class="link-item">
+                <img src="{{ url_for('static', filename='Images/cocktail-history.jpg') }}" alt="Povijest koktela">
+                <a href="{{ url_for('blog_post', article_id=4) }}">Povijest koktela</a>
+            </div>
+            <div class="link-item">
+                <img src="{{ url_for('static', filename='Images/bar-tips.jpg') }}" alt="Savjeti za bariste">
+                <a href="{{ url_for('blog_post', article_id=5) }}">Savjeti za bariste</a>
+            </div>
+            <div class="link-item">
+                <img src="{{ url_for('static', filename='Images/holiday-cocktails.jpg') }}" alt="Kokteli za praznike">
+                <a href="{{ url_for('blog_post', article_id=6) }}">Kokteli za praznike</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sekcija O nama -->
+    <div class="about-section">
+        <h2>O nama</h2>
+        <p>
+            Dobrodošli u SipIT – vašu osobnu oazu u svijetu koktela! Bez obzira na to jeste li iskusni miksolog ili tek započinjete svoje istraživanje raznovrsnih okusa, SipIT je tu da vas inspirira. Naša aplikacija osmišljena je za sve koji žele otkrivati i pripremati koktele – bilo u udobnosti svog doma ili u društvu u omiljenom baru.
+        </p>
+        <p>
+            Uz SipIT imate pristup bogatoj kolekciji recepata s jasnim uputama i detaljnim informacijama o sastojcima. Najbolje od svega? Naši pametni filteri omogućuju vam odabir recepata na temelju sastojaka koje već imate kod kuće. To znači manje stresa i više uživanja u stvaranju savršenog pića za svaku priliku.
+        </p>
+        <p>
+            Otkrijte tajne savršenog martinija, kreirajte vlastite blagdanske koktele ili jednostavno pronađite inspiraciju za sljedeći večernji izlazak. SipIT je ovdje kako bi svaki gutljaj učinio posebnim!
+        </p>
+    </div>
+
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <!-- Sekcija 1: Dijelovi web aplikacije -->
+            <div class="footer-section">
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Početna</a></li>
+                    <li><a href="{{ url_for('recipes') }}">Recepti</a></li>
+                    <li><a href="{{ url_for('barovi') }}">Barovi</a></li>
+                    <li><a href="{{ url_for('lokacija') }}">Lokacija</a></li>
+                    <li><a href="{{ url_for('blog') }}">Blog</a></li>
+                    <li><a href="{{ url_for('contact') }}">Kontakt</a></li>
+                </ul>
+            </div>
+            
+            <!-- Sekcija 2: Kontakt informacije -->
+            <div class="footer-section">
+                <h3>Kontakt informacije</h3>
+                <p>Email: <a href="mailto:mija.vujnovic2@gmail.com">sipit8525@gmail.com</a></p>
+                <p>Telefon: +385 91 123 4567</p>
+                <p>Adresa: Ulica Ruđera Boškovića 32, 21000 Split</p>
+            </div>
+            
+            <!-- Sekcija 3: Društvene mreže -->
+            <div class="footer-section">
+                <h3>Pratite nas</h3>
+                <ul class="social-links">
+                    <li>
+                        <a href="https://www.facebook.com/drinksipit/" target="_blank" rel="noopener noreferrer">
+                            <img src="{{ url_for('static', filename='Images/facebook-icon.png') }}" alt="Facebook" class="social-icon"> Facebook
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/drinksipit/" target="_blank" rel="noopener noreferrer">
+                            <img src="{{ url_for('static', filename='Images/instagram-icon.png') }}" alt="Instagram" class="social-icon"> Instagram
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.twitter.com/drinksipit/" target="_blank" rel="noopener noreferrer">
+                            <img src="{{ url_for('static', filename='Images/twitter-icon.png') }}" alt="Twitter" class="social-icon"> Twitter
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 SipIT. Sva prava pridržana.</p>
+        </div>
+    </footer>
+</body>
+</html>

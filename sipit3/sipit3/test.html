@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="hr">
+<meta charset="UTF-8">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="./sipitlib.js"></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+</head>
+<body>
+
+<div class=divcontainer>
+
+
+		<p class=textbasic> text1: <input type=text id=text1></input></p>
+		<input type=button id=upisi class=headbutton onclick=Upisitext() value="Upiši text"></button>
+
+
+</div>
+
+<script>
+
+
+
+function Upisitext(){
+  formobj={};
+	
+  formobj.text1=document.getElementById("text1").value;
+
+  APIQuery(formobj,"test.php", APIreturnStatus);
+
+}
+
+
+
+function APIreturnStatus(jobj){
+alert(jobj.ret);
+var objReturned={};
+objReturned=JSON.parse(jobj);
+
+document.getElementById("text1").value=objReturned.ret;
+}
+
+
+
+</script>
+</body>
+</html>
