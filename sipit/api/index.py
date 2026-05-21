@@ -1,5 +1,9 @@
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+
 from app import app
 
-def handler(environ, start_response):
-    start_response("200 OK", [("Content-Type", "text/plain")])
-    return [b"SipIT OK"]
+# VAŽNO
+app = app
